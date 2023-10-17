@@ -1,0 +1,17 @@
+.next-shape-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.next-shape-preview .game-row {
+  justify-content: center;
+}
+.next-shape-preview .game-row:first-child {
+  border: none;
+}
+.next-shape-preview .game-row:first-child .game-cell {
+  border-top: 1px solid #ccc;
+}
+.next-shape-preview .game-row .game-cell:first-child {
+  border-left: 1px solid #ccc;
+}

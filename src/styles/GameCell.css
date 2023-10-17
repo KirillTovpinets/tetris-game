@@ -1,0 +1,12 @@
+.game-cell {
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.game-cell:not(.static):first-child {
+  border-left: 1px solid #ccc;
+}
+
+.game-cell.active {
+  background: blue;
+}

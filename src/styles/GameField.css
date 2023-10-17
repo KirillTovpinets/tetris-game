@@ -1,0 +1,6 @@
+.game-field {
+  flex-basis: 850px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+}
