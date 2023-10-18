@@ -1,6 +1,4 @@
 import { atom, selector } from 'recoil';
-import { v4 as uuid } from 'uuid';
-import { SHAPE_RECTANGLE_CELLS } from '../constants';
 import {
   CellConfig,
   CellSize,
@@ -15,7 +13,18 @@ export const gameAtom = atom<GameConfig>({
     rows: [],
     cellHeight: 0,
     cellWidth: 0,
+    initialX: 0,
   },
+});
+
+export const speedLevelAtom = atom<number>({
+  key: 'speed-level',
+  default: 1,
+});
+
+export const rowBurnedAtom = atom<number>({
+  key: 'rows-burned',
+  default: 0,
 });
 
 export const fieldShapesState = atom<CellConfig[]>({
@@ -34,28 +43,6 @@ export const shapeAtom = atom<Shape>({
 export const nextShapeAtom = atom<Shape | null>({
   key: 'next-shape',
   default: null,
-});
-
-export const shapePreviewFieldAtom = atom<Row[]>({
-  key: 'shape-preview-field',
-  default: (() => {
-    const rows: Row[] = [];
-    for (let i = 0; i < SHAPE_RECTANGLE_CELLS; i++) {
-      const row: Row = {
-        cells: [],
-      };
-      for (let j = 0; j < SHAPE_RECTANGLE_CELLS; j++) {
-        row.cells.push({
-          id: uuid(),
-          x: j,
-          y: i,
-          isStatic: true,
-        });
-      }
-      rows.push(row);
-    }
-    return rows;
-  })(),
 });
 
 export const currentShapeTypeState = selector<ShapeEnum>({
@@ -81,16 +68,27 @@ export const isAtTheBottom = selector<boolean>({
     if (savedCells.length === 0) {
       return shapeIsAtTheBottom;
     }
-    const cellsUnderTheShape = savedCells.filter((cell) =>
-      cellsX.includes(cell.x)
+    const cellsUnderTheShape = savedCells.filter(
+      (cell) =>
+        cellsX.includes(cell.x) &&
+        cell.y >
+          Math.max(...cells.filter((c) => c.x === cell.x).map((c) => c.y))
     );
 
-    const isCollapsed = cellsUnderTheShape.find(
+    const isCollapsed = !!cellsUnderTheShape.find(
       (cell) =>
         !!cells.find(
-          (shapeCell) => shapeCell.x === cell.x && shapeCell.y >= cell.y - 1
+          (shapeCell) => shapeCell.x === cell.x && shapeCell.y === cell.y - 1
         )
     );
+    console.log(cellsUnderTheShape);
+    console.log(
+      'closest Y under the shape = ' +
+        Math.min(...cellsUnderTheShape.map((cell) => cell.y))
+    );
+    console.log('closest Y above the field = ' + Math.max(...cellsY));
+
+    console.log(isCollapsed);
     return !!isCollapsed || shapeIsAtTheBottom;
   },
 });

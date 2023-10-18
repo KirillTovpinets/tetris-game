@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   DIRECTIONS,
-  GAME_SPEED,
   ROW_DISAPPEAR_SPEED,
   UPDATE_FUNCTIONS_MAP,
 } from './constants';
@@ -13,16 +12,18 @@ import {
   isAtTheBottom,
   isEndGame,
   nextShapeAtom,
+  rowBurnedAtom,
   shapeAtom,
 } from './store';
-import { KeyboardCodes, Row, Shape } from './types';
+import { CellConfig, KeyboardCodes, Row, Shape } from './types';
 
-export const useKeyboardHanlder = (isPaused: boolean) => {
+export const useKeyboardHanlder = (isPaused: boolean, speed: number) => {
   const rows = useRecoilValue<Row[]>(gameRowsState);
   const shape = useRecoilValue<Shape>(shapeAtom);
   const isGameOver = useRecoilValue<boolean>(isEndGame);
+  const savedCells = useRecoilValue<CellConfig[]>(fieldShapesState);
 
-  const { updateShape } = useUpdateShape(isPaused);
+  const { updateShape } = useUpdateShape(isPaused, speed);
 
   useEffect(() => {
     const keydownHanlder = ({ code }: KeyboardEvent) => {
@@ -33,9 +34,28 @@ export const useKeyboardHanlder = (isPaused: boolean) => {
       const minX = Math.min(...shape.cells.map((c) => c.x));
       const maxX = Math.max(...shape.cells.map((c) => c.x));
 
+      const isShapeOnRightSide =
+        code === KeyboardCodes.right &&
+        !!savedCells.find(
+          (cell) =>
+            !!shape.cells.find((c) => c.x === cell.x - 1 && c.y === cell.y)
+        );
+
+      const isShapeOnLeftSide =
+        code === KeyboardCodes.left &&
+        !!savedCells.find(
+          (cell) =>
+            !!shape.cells.find((c) => c.x === cell.x + 1 && c.y === cell.y)
+        );
+
+      const isAtTheLeftEdge = code === KeyboardCodes.left && minX === 0;
+      const isAtTheRightEdge =
+        code === KeyboardCodes.right && maxX === rows[0].cells.length - 1;
       if (
-        (code === KeyboardCodes.left && minX === 0) ||
-        (code === KeyboardCodes.right && maxX === rows[0].cells.length - 1)
+        isAtTheLeftEdge ||
+        isAtTheRightEdge ||
+        isShapeOnLeftSide ||
+        isShapeOnRightSide
       ) {
         return;
       }
@@ -50,10 +70,10 @@ export const useKeyboardHanlder = (isPaused: boolean) => {
     document.addEventListener('keydown', keydownHanlder);
 
     return () => document.removeEventListener('keydown', keydownHanlder);
-  }, [rows, shape, isGameOver]);
+  }, [rows, shape, isGameOver, savedCells]);
 };
 
-export const useUpdateShape = (isPaused: boolean) => {
+export const useUpdateShape = (isPaused: boolean, speed: number) => {
   const setShape = useSetRecoilState(shapeAtom);
   const [timerId, setTimerId] = useState<any | null>(null);
 
@@ -84,35 +104,36 @@ export const useUpdateShape = (isPaused: boolean) => {
     });
   };
 
-  useEffect(() => {
-    if (isPaused) {
-      return;
-    }
-    const timer = setInterval(() => {
-      updateShape();
-    }, GAME_SPEED);
-    setTimerId(timer);
+  // useEffect(() => {
+  //   if (isPaused) {
+  //     return;
+  //   }
+  //   const timer = setInterval(() => {
+  //     updateShape();
+  //   }, speed);
+  //   setTimerId(timer);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isPaused]);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, [isPaused, speed]);
 
   return { updateShape, timerId };
 };
 
-export const useGameLoop = (isPaused: boolean) => {
+export const useGameLoop = (isPaused: boolean, gameSpeed: number) => {
   const rows = useRecoilValue<Row[]>(gameRowsState);
   const shape = useRecoilValue<Shape>(shapeAtom);
   const nextShape = useRecoilValue<Shape | null>(nextShapeAtom);
 
   const [shapes, setShapes] = useRecoilState(fieldShapesState);
   const setSavedCells = useSetRecoilState(fieldShapesState);
+  const setRowBurnedCount = useSetRecoilState(rowBurnedAtom);
 
   const isEndOfLoop = useRecoilValue<boolean>(isAtTheBottom);
   const setShape = useSetRecoilState(shapeAtom);
 
-  useKeyboardHanlder(isPaused);
+  useKeyboardHanlder(isPaused, gameSpeed);
 
   useEffect(() => {
     if (!isEndOfLoop || !nextShape) {
@@ -151,6 +172,7 @@ export const useGameLoop = (isPaused: boolean) => {
           })),
           ...belowCollection,
         ]);
+        setRowBurnedCount((count) => filledRows.length + count);
       }, ROW_DISAPPEAR_SPEED);
     }
     setShapes([...shapes, ...shape.cells]);

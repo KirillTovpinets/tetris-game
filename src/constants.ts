@@ -2,10 +2,20 @@ import { ArrowMeta, CellConfig, KeyboardCodes, ShapeEnum } from './types';
 
 export const CELL_WIDTH_PERCENTAGE = 5;
 export const GAME_SPEED = 700;
+export const SPEED_STEP = 50;
+export const SPEED_CHANGE_INTERVAL_IN_MINUTES = 0.2;
 export const ROW_DISAPPEAR_SPEED = 200;
 export const SHAPE_RECTANGLE_CELLS = 4;
 
 export const COLORS = ['red', 'green', 'blue', 'orange', 'purple'];
+export const PREIVEW_CLASSES = {
+  [ShapeEnum.I]: 'I-shape',
+  [ShapeEnum.L]: 'L-shape',
+  [ShapeEnum.N]: 'N-shape',
+  [ShapeEnum.O]: 'O-shape',
+  [ShapeEnum.Z]: 'Z-shape',
+  [ShapeEnum.T]: 'T-shape',
+};
 
 const AVAILABLE_SHAPES = [
   ShapeEnum.I,
@@ -13,6 +23,7 @@ const AVAILABLE_SHAPES = [
   ShapeEnum.O,
   ShapeEnum.T,
   ShapeEnum.Z,
+  ShapeEnum.N,
 ];
 export const SHAPE_TYPES = Object.values(ShapeEnum).filter(
   (key) => typeof key !== 'string' && AVAILABLE_SHAPES.includes(key)

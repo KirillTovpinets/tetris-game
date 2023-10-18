@@ -1,7 +1,14 @@
 import { FunctionComponent, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getRandomColor, getRandomShape } from '../helpers';
-import { isAtTheBottom, nextShapeAtom } from '../store';
+import {
+  fieldShapesState,
+  gameAtom,
+  isAtTheBottom,
+  nextShapeAtom,
+  rowBurnedAtom,
+  speedLevelAtom,
+} from '../store';
 import '../styles/Statistics.css';
 import NextShapePreview from './NextShapePreview';
 
@@ -9,14 +16,18 @@ interface StatisticsProps {}
 
 const Statistics: FunctionComponent<StatisticsProps> = () => {
   const [nextShape, setNextShape] = useRecoilState(nextShapeAtom);
-
+  const { initialX } = useRecoilValue(gameAtom);
   const isEndOfLoop = useRecoilValue(isAtTheBottom);
+  const speedLevel = useRecoilValue(speedLevelAtom);
+  const fieldCells = useRecoilValue(fieldShapesState);
+  const rowsBurned = useRecoilValue(rowBurnedAtom);
+
   useEffect(() => {
     if (!isEndOfLoop) {
       return;
     }
 
-    const randomShape = getRandomShape();
+    const randomShape = getRandomShape(initialX);
     const randomColor = getRandomColor();
     setNextShape({
       ...randomShape,
@@ -26,6 +37,18 @@ const Statistics: FunctionComponent<StatisticsProps> = () => {
   return (
     <div className="statistics">
       <NextShapePreview />
+      <span className="statistic-item">
+        <span className="title">Your speed</span>
+        <span className="value"> {speedLevel} level</span>
+      </span>
+      <span className="statistic-item">
+        <span className="title">Cells on field</span>
+        <span className="value">{fieldCells.length} cells</span>
+      </span>
+      <span className="statistic-item">
+        <span className="title">Rows burned</span>
+        <span className="value">{rowsBurned} rows</span>
+      </span>
     </div>
   );
 };

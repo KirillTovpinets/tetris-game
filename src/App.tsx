@@ -1,23 +1,49 @@
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import GameField from './components/GameField';
 import GameOverSceen from './components/GameOverSceen';
 import { PauseSceen } from './components/PauseScreen';
 import Statistics from './components/Statistics';
-import { PAUSE_BUTTON } from './constants';
+import {
+  GAME_SPEED,
+  PAUSE_BUTTON,
+  SPEED_CHANGE_INTERVAL_IN_MINUTES,
+  SPEED_STEP,
+} from './constants';
+import { speedLevelAtom } from './store';
 import './styles/App.css';
 
 function App() {
   const [pause, setPause] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [gameSpeed, setGameSpeed] = useState(GAME_SPEED);
+  const [speedTimerId, setSpeedTimerId] = useState<any>(null);
+  const setSpeedLevel = useSetRecoilState(speedLevelAtom);
 
   useEffect(() => {
+    if (gameOver && speedTimerId) {
+      clearInterval(speedTimerId);
+      return;
+    }
     window.onblur = function () {
       if (gameOver) {
         return;
       }
       setPause(true);
     };
-  }, [gameOver]);
+  }, [gameOver, speedTimerId]);
+
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setGameSpeed((speed) => speed - SPEED_STEP);
+      setSpeedLevel((level) => {
+        return level + 1;
+      });
+    }, SPEED_CHANGE_INTERVAL_IN_MINUTES * 60 * 1000);
+
+    setSpeedTimerId(timerId);
+    return () => clearInterval(timerId);
+  }, []);
 
   useEffect(() => {
     const handler = ({ code }: KeyboardEvent) => {
@@ -26,14 +52,23 @@ function App() {
       }
     };
 
+    if (pause) {
+      clearInterval(speedTimerId);
+    }
+
     document.addEventListener('keydown', handler);
 
     return () => document.removeEventListener('keydown', handler);
-  }, [pause]);
+  }, [pause, speedTimerId]);
+
   return (
     <div className="App">
       <div className="container">
-        <GameField isPaused={pause} gameOverHandler={() => setGameOver(true)} />
+        <GameField
+          isPaused={pause}
+          gameOverHandler={() => setGameOver(true)}
+          gameSpeed={gameSpeed}
+        />
         <Statistics />
       </div>
       {pause && <PauseSceen />}

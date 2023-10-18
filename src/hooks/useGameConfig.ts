@@ -24,6 +24,7 @@ export const useAppConfig = (fieldRef: RefObject<HTMLDivElement>) => {
     const height = width * ratio;
 
     const cellRowCount = Math.ceil(fieldWidth / width);
+    const initialX = Math.floor(cellRowCount / 2);
     const numRows = Math.floor(fieldHeight / height);
 
     const rows: Row[] = Array.from({ length: numRows }).map((_, rowIndex) => {
@@ -47,15 +48,21 @@ export const useAppConfig = (fieldRef: RefObject<HTMLDivElement>) => {
       };
     });
 
-    setGameConfig({ rows, cellHeight: height, cellWidth: width });
+    setGameConfig({
+      rows,
+      cellHeight: height,
+      cellWidth: width,
+      initialX,
+    });
 
-    const { shape, color } = getRandomShapeConfig();
+    const { shape, color } = getRandomShapeConfig(initialX);
     setShape({
       ...shape,
       cells: shape.cells.map((cell) => ({ ...cell, color })),
     });
 
-    const { shape: nextShape, color: nextColor } = getRandomShapeConfig();
+    const { shape: nextShape, color: nextColor } =
+      getRandomShapeConfig(initialX);
     setNextShape({
       ...nextShape,
       cells: nextShape.cells.map((cell) => ({ ...cell, color: nextColor })),

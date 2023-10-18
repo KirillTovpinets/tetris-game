@@ -1,7 +1,6 @@
 export type CellConfig = {
   x: number;
   y: number;
-  isStatic?: boolean;
   id?: string;
   color?: string;
 };
@@ -16,12 +15,14 @@ export type CellSize = {
 };
 export type GameConfig = {
   rows: Row[];
+  initialX: number;
 } & CellSize;
 
 export enum ShapeEnum {
   I,
   O,
   Z,
+  N,
   L,
   T,
 }

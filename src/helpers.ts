@@ -1,7 +1,15 @@
 import { COLORS, SHAPE_TYPES } from './constants';
+import shapeFactories from './shape-factories';
 import { CellConfig, Shape, ShapeEnum } from './types';
 
-const SHAPE_CELL_COUNT = 4;
+const SHAPE_BUILDERS_MAP = {
+  [ShapeEnum.I]: shapeFactories.buildIShape,
+  [ShapeEnum.L]: shapeFactories.buildLShape,
+  [ShapeEnum.N]: shapeFactories.buildNShape,
+  [ShapeEnum.O]: shapeFactories.buildOShape,
+  [ShapeEnum.T]: shapeFactories.buildTShape,
+  [ShapeEnum.Z]: shapeFactories.buildZShape,
+};
 
 export const getCenterCell = (cells: CellConfig[]): CellConfig => {
   const ys = cells.map((i) => i.y);
@@ -28,103 +36,34 @@ export const getRandomColor = (): string => {
   return COLORS[randomNumber];
 };
 
-export const getRandomShape = (): Shape => {
+export const getRandomShape = (initialX: number): Shape => {
   const randomNumber = getRandomNumber(0, SHAPE_TYPES.length);
   const randomType = SHAPE_TYPES[randomNumber] as ShapeEnum;
-  return { type: randomType, cells: SHAPE_CELLS_MAP[randomType] };
+  return { type: randomType, cells: SHAPE_CELLS_MAP(initialX)[randomType] };
 };
 
-export const getRandomShapeConfig = (): { shape: Shape; color: string } => {
+export const getRandomShapeConfig = (
+  initialX: number
+): { shape: Shape; color: string } => {
   return {
-    shape: getRandomShape(),
+    shape: getRandomShape(initialX - 2),
     color: getRandomColor(),
   };
 };
 
-const buildIShape = (): CellConfig[] => {
-  const cells: CellConfig[] = [];
-  for (let i = 0; i < SHAPE_CELL_COUNT; i++) {
-    cells.push({ x: i, y: 0 });
-  }
-
-  return cells;
-};
-
-const buildTShape = (): CellConfig[] => {
-  const cells: CellConfig[] = [];
-  for (let i = 0; i < SHAPE_CELL_COUNT - 1; i++) {
-    cells.push({ x: i, y: 0 });
-  }
-  const middle = Math.ceil((SHAPE_CELL_COUNT - 1) / 2);
-  cells.push({ x: middle, y: 1 });
-
-  return cells;
-};
-
-const buildZShape = (): CellConfig[] => {
-  const cells: CellConfig[] = [];
-
-  for (let i = 0; i < SHAPE_CELL_COUNT / 2; i++) {
-    cells.push({ x: i, y: 0 });
-  }
-
-  for (let i = 0; i < SHAPE_CELL_COUNT / 2; i++) {
-    cells.push({ x: i + 1, y: 1 });
-  }
-
-  return cells;
-};
-
-const buildLShape = (): CellConfig[] => {
-  const cells: CellConfig[] = [];
-
-  let i;
-  for (i = 0; i < SHAPE_CELL_COUNT - 1; i++) {
-    cells.push({ x: 0, y: i });
-  }
-
-  cells.push({ x: 1, y: i - 1 });
-  return cells;
-};
-
-const buildOShape = (): CellConfig[] => {
-  const cells: CellConfig[] = [];
-
-  for (let i = 0; i < SHAPE_CELL_COUNT / 2; i++) {
-    cells.push({ x: i, y: 0 });
-  }
-  for (let i = 0; i < SHAPE_CELL_COUNT / 2; i++) {
-    cells.push({ x: i, y: 1 });
-  }
-
-  return cells;
-};
-
-export const shapeBuilder = (type: ShapeEnum): CellConfig[] => {
-  switch (type) {
-    case ShapeEnum.I:
-      return buildIShape();
-    case ShapeEnum.T:
-      return buildTShape();
-    case ShapeEnum.L:
-      return buildLShape();
-    case ShapeEnum.Z:
-      return buildZShape();
-    case ShapeEnum.O:
-      return buildOShape();
-    default:
-      return [];
-  }
-};
-
-export const SHAPE_CELLS_MAP: Record<ShapeEnum, CellConfig[]> = (() => {
-  return Object.values(ShapeEnum)
-    .filter((key) => typeof key !== 'string')
-    .reduce((hash, key: string | ShapeEnum) => {
-      hash[key as ShapeEnum] = shapeBuilder(key as ShapeEnum);
-      return hash;
-    }, {} as Record<ShapeEnum, CellConfig[]>) as unknown as Record<
-    ShapeEnum,
-    CellConfig[]
-  >;
-})();
+export const SHAPE_CELLS_MAP: (x: number) => Record<ShapeEnum, CellConfig[]> =
+  (() => {
+    return (initialX: number) => {
+      return Object.values(ShapeEnum)
+        .filter((key) => typeof key !== 'string')
+        .reduce((hash, key: string | ShapeEnum) => {
+          hash[key as ShapeEnum] = SHAPE_BUILDERS_MAP[key as ShapeEnum](
+            initialX
+          ) as CellConfig[];
+          return hash;
+        }, {} as Record<ShapeEnum, CellConfig[]>) as unknown as Record<
+        ShapeEnum,
+        CellConfig[]
+      >;
+    };
+  })();

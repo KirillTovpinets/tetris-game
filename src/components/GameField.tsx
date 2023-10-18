@@ -8,17 +8,19 @@ import { Row } from '../types';
 import GameRow from './GameRow';
 interface GameFieldProps {
   isPaused: boolean;
+  gameSpeed: number;
   gameOverHandler: () => void;
 }
 
 const GameField: FunctionComponent<GameFieldProps> = ({
   isPaused,
   gameOverHandler,
+  gameSpeed,
 }) => {
   const fieldRef = useRef<HTMLDivElement>(null);
 
   useAppConfig(fieldRef);
-  useGameLoop(isPaused);
+  useGameLoop(isPaused, gameSpeed);
 
   const rows = useRecoilValue<Row[]>(gameRowsState);
   const isGameOver = useRecoilValue<boolean>(isEndGame);

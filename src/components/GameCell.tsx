@@ -5,28 +5,19 @@ import {
   currentShapeCellsState,
   fieldShapesState,
   gameCellState,
-  nextShapeAtom,
 } from '../store';
 import '../styles/GameCell.css';
 import { CellConfig } from '../types';
+
 interface GameCellProps extends CellConfig {}
 
-const GameCell: FunctionComponent<GameCellProps> = ({
-  x,
-  y,
-  isStatic,
-  color,
-}) => {
+const GameCell: FunctionComponent<GameCellProps> = ({ x, y }) => {
   const { cellHeight: height, cellWidth: width } =
     useRecoilValue(gameCellState);
 
   const shapeCells = useRecoilValue<CellConfig[]>(currentShapeCellsState);
   const savedCells = useRecoilValue<CellConfig[]>(fieldShapesState);
-  const nextShape = useRecoilValue(nextShapeAtom);
-
-  const activeCellsCollection = isStatic
-    ? nextShape?.cells || []
-    : [...shapeCells, ...savedCells];
+  const activeCellsCollection = [...shapeCells, ...savedCells];
 
   const activeCell = activeCellsCollection.find(
     ({ x: cX, y: cY }) => x === cX && y === cY
@@ -34,7 +25,7 @@ const GameCell: FunctionComponent<GameCellProps> = ({
 
   return (
     <div
-      className={classNames('game-cell', { static: isStatic })}
+      className={classNames('game-cell')}
       style={{
         width: `${width}px`,
         height: `${height}px`,

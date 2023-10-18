@@ -5,3 +5,12 @@
   border-left: 3px solid #ccc;
   padding: 20px;
 }
+
+.statistics .statistic-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+}
