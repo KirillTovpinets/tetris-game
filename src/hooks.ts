@@ -104,19 +104,19 @@ export const useUpdateShape = (isPaused: boolean, speed: number) => {
     });
   };
 
-  // useEffect(() => {
-  //   if (isPaused) {
-  //     return;
-  //   }
-  //   const timer = setInterval(() => {
-  //     updateShape();
-  //   }, speed);
-  //   setTimerId(timer);
+  useEffect(() => {
+    if (isPaused) {
+      return;
+    }
+    const timer = setInterval(() => {
+      updateShape();
+    }, speed);
+    setTimerId(timer);
 
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, [isPaused, speed]);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isPaused, speed]);
 
   return { updateShape, timerId };
 };
