@@ -4,6 +4,7 @@ import GameField from './components/GameField';
 import GameOverSceen from './components/GameOverSceen';
 import { PauseSceen } from './components/PauseScreen';
 import Statistics from './components/Statistics';
+import WelcomeScreen from './components/WelcomeScreen';
 import {
   GAME_SPEED,
   PAUSE_BUTTON,
@@ -19,6 +20,7 @@ function App() {
   const [gameSpeed, setGameSpeed] = useState(GAME_SPEED);
   const [speedTimerId, setSpeedTimerId] = useState<any>(null);
   const setSpeedLevel = useSetRecoilState(speedLevelAtom);
+  const [startTheGame, setStartTheGame] = useState(false);
 
   useEffect(() => {
     if (gameOver && speedTimerId) {
@@ -63,16 +65,19 @@ function App() {
 
   return (
     <div className="App">
-      <div className="container">
-        <GameField
-          isPaused={pause}
-          gameOverHandler={() => setGameOver(true)}
-          gameSpeed={gameSpeed}
-        />
-        <Statistics />
-      </div>
+      {startTheGame && (
+        <div className="container">
+          <GameField
+            isPaused={pause}
+            gameOverHandler={() => setGameOver(true)}
+            gameSpeed={gameSpeed}
+          />
+          <Statistics />
+        </div>
+      )}
       {pause && <PauseSceen />}
       {gameOver && <GameOverSceen />}
+      {!startTheGame && <WelcomeScreen />}
     </div>
   );
 }

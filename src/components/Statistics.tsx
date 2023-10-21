@@ -37,6 +37,7 @@ const Statistics: FunctionComponent<StatisticsProps> = () => {
   return (
     <div className="statistics">
       <NextShapePreview />
+      <hr />
       <span className="statistic-item">
         <span className="title">Your speed</span>
         <span className="value"> {speedLevel} level</span>
@@ -49,6 +50,10 @@ const Statistics: FunctionComponent<StatisticsProps> = () => {
         <span className="title">Rows burned</span>
         <span className="value">{rowsBurned} rows</span>
       </span>
+      <hr />
+      <p className="description">
+        Press <code>P</code> key to pause the game
+      </p>
     </div>
   );
 };

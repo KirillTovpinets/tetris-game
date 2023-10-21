@@ -14,3 +14,11 @@
   font-weight: 600;
   text-align: center;
 }
+
+.statistics .description {
+  font-size: 20px;
+}
+
+.statistics .statistic-item:last-of-type {
+  margin-bottom: 30px;
+}

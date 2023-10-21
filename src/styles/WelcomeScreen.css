@@ -1,0 +1,15 @@
+.arrows .arrow.right::before {
+  content: '\2192';
+}
+
+.arrows .arrow.left::before {
+  content: '\2190';
+}
+
+.arrows .arrow.bottom::before {
+  content: '\2193';
+}
+
+.arrows .arrow.top::before {
+  content: '\2191';
+}
