@@ -36,6 +36,10 @@ function App() {
   }, [gameOver, speedTimerId]);
 
   useEffect(() => {
+    if (!startTheGame) {
+      return;
+    }
+
     const timerId = setInterval(() => {
       setGameSpeed((speed) => speed - SPEED_STEP);
       setSpeedLevel((level) => {
@@ -45,7 +49,7 @@ function App() {
 
     setSpeedTimerId(timerId);
     return () => clearInterval(timerId);
-  }, []);
+  }, [startTheGame]);
 
   useEffect(() => {
     const handler = ({ code }: KeyboardEvent) => {
@@ -77,7 +81,9 @@ function App() {
       )}
       {pause && <PauseSceen />}
       {gameOver && <GameOverSceen />}
-      {!startTheGame && <WelcomeScreen />}
+      {!startTheGame && (
+        <WelcomeScreen startGame={() => setStartTheGame(true)} />
+      )}
     </div>
   );
 }

@@ -3,18 +3,36 @@ import '../styles/WelcomeScreen.css';
 import { Modal } from './Modal';
 import ModalContent from './ModalContent';
 
-interface WelcomeScreenProps {}
+interface WelcomeScreenProps {
+  startGame: () => void;
+}
 
-const WelcomeScreen: FunctionComponent<WelcomeScreenProps> = () => {
+const WelcomeScreen: FunctionComponent<WelcomeScreenProps> = ({
+  startGame,
+}) => {
   return (
     <Modal>
       <ModalContent>
-        Use your keyboards to move the shape around the game field
+        <p>Use your keyboards to move the shape around the game field</p>
         <div className="arrows">
-          <span className="arrow top"></span>
-          <span className="arrow right"></span>
-          <span className="arrow bottom"></span>
-          <span className="arrow left"></span>
+          <div className="first-row">
+            <span className="arrow top"></span>
+          </div>
+          <div className="second-row">
+            <span className="arrow left"></span>
+            <span className="arrow bottom"></span>
+            <span className="arrow right"></span>
+          </div>
+        </div>
+
+        <p>
+          You can click <span className="key">P</span> button to pause the game
+        </p>
+
+        <div className="actions">
+          <button className="start-btn" onClick={startGame}>
+            Start
+          </button>
         </div>
       </ModalContent>
     </Modal>

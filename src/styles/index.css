@@ -7,3 +7,10 @@ html {
 * {
   box-sizing: border-box;
 }
+
+.key {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 3px 10px;
+  border-radius: 4px;
+}

@@ -52,7 +52,7 @@ const Statistics: FunctionComponent<StatisticsProps> = () => {
       </span>
       <hr />
       <p className="description">
-        Press <code>P</code> key to pause the game
+        Press <span className="key">P</span> key to pause the game
       </p>
     </div>
   );
