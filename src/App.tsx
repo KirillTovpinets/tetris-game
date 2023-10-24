@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import GameField from './components/GameField';
-import GameOverSceen from './components/GameOverSceen';
-import { PauseSceen } from './components/PauseScreen';
-import Statistics from './components/Statistics';
-import WelcomeScreen from './components/WelcomeScreen';
+import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import GameField from "./components/GameField";
+import GameOverSceen from "./components/GameOverSceen";
+import { PauseSceen } from "./components/PauseScreen";
+import Statistics from "./components/Statistics";
+import WelcomeScreen from "./components/WelcomeScreen";
 import {
   GAME_SPEED,
   PAUSE_BUTTON,
   SPEED_CHANGE_INTERVAL_IN_MINUTES,
   SPEED_STEP,
-} from './constants';
-import { speedLevelAtom } from './store';
-import './styles/App.css';
+} from "./constants";
+import { speedLevelAtom } from "./store";
+import "./styles/App.css";
 
 function App() {
   const [pause, setPause] = useState(false);
@@ -40,12 +40,15 @@ function App() {
       return;
     }
 
-    const timerId = setInterval(() => {
-      setGameSpeed((speed) => speed - SPEED_STEP);
-      setSpeedLevel((level) => {
-        return level + 1;
-      });
-    }, SPEED_CHANGE_INTERVAL_IN_MINUTES * 60 * 1000);
+    const timerId = setInterval(
+      () => {
+        setGameSpeed((speed) => speed - SPEED_STEP);
+        setSpeedLevel((level) => {
+          return level + 1;
+        });
+      },
+      SPEED_CHANGE_INTERVAL_IN_MINUTES * 60 * 1000
+    );
 
     setSpeedTimerId(timerId);
     return () => clearInterval(timerId);
@@ -62,9 +65,9 @@ function App() {
       clearInterval(speedTimerId);
     }
 
-    document.addEventListener('keydown', handler);
+    document.addEventListener("keydown", handler);
 
-    return () => document.removeEventListener('keydown', handler);
+    return () => document.removeEventListener("keydown", handler);
   }, [pause, speedTimerId]);
 
   return (
