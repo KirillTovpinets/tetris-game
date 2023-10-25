@@ -36,10 +36,6 @@ function App() {
   }, [gameOver, speedTimerId]);
 
   useEffect(() => {
-    if (!startTheGame) {
-      return;
-    }
-
     const timerId = setInterval(
       () => {
         setGameSpeed((speed) => speed - SPEED_STEP);
@@ -71,17 +67,15 @@ function App() {
   }, [pause, speedTimerId]);
 
   return (
-    <div className="App">
-      {startTheGame && (
-        <div className="container">
-          <GameField
-            isPaused={pause}
-            gameOverHandler={() => setGameOver(true)}
-            gameSpeed={gameSpeed}
-          />
-          <Statistics />
-        </div>
-      )}
+    <div className="Tetris-App">
+      <div className="container">
+        <GameField
+          isPaused={pause}
+          gameOverHandler={() => setGameOver(true)}
+          gameSpeed={gameSpeed}
+        />
+        <Statistics />
+      </div>
       {pause && <PauseSceen />}
       {gameOver && <GameOverSceen />}
       {!startTheGame && (

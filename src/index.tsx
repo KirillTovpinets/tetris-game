@@ -1,15 +1,14 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 import App from "./App";
+import "./styles/index.css";
 
-function TetrisGame() {
-  return (
-    <React.StrictMode>
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    </React.StrictMode>
-  );
-}
+const TetrisGame = () => (
+  <React.StrictMode>
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  </React.StrictMode>
+);
 
 export default TetrisGame;
