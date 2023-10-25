@@ -1,0 +1,9 @@
+
+> tetris-game@0.1.0 build
+> react-scripts build
+
+sh: react-scripts: command not found
+npm ERR! Lifecycle script `build` failed with error: 
+npm ERR! Error: command failed 
+npm ERR!   in workspace: tetris-game@0.1.0 
+npm ERR!   at location: /Users/user/Documents/github/game-mono/packages/tetris-game 

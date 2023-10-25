@@ -34,12 +34,15 @@ function App() {
   }, [gameOver, speedTimerId]);
 
   useEffect(() => {
-    const timerId = setInterval(() => {
-      setGameSpeed((speed) => speed - SPEED_STEP);
-      setSpeedLevel((level) => {
-        return level + 1;
-      });
-    }, SPEED_CHANGE_INTERVAL_IN_MINUTES * 60 * 1000);
+    const timerId = setInterval(
+      () => {
+        setGameSpeed((speed) => speed - SPEED_STEP);
+        setSpeedLevel((level) => {
+          return level + 1;
+        });
+      },
+      SPEED_CHANGE_INTERVAL_IN_MINUTES * 60 * 1000
+    );
 
     setSpeedTimerId(timerId);
     return () => clearInterval(timerId);
@@ -62,7 +65,7 @@ function App() {
   }, [pause, speedTimerId]);
 
   return (
-    <div className="App">
+    <div className="Tetris-App">
       <div className="container">
         <GameField
           isPaused={pause}

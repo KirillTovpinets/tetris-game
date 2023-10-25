@@ -1,15 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import App from './App';
 import './styles/index.css';
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+
+const TetrisGame = () => (
   <React.StrictMode>
     <RecoilRoot>
       <App />
     </RecoilRoot>
   </React.StrictMode>
 );
+
+export default TetrisGame;
