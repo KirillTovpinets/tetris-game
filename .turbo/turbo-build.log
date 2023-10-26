@@ -2,8 +2,24 @@
 > tetris-game@0.1.0 build
 > react-scripts build
 
-sh: react-scripts: command not found
-npm ERR! Lifecycle script `build` failed with error: 
-npm ERR! Error: command failed 
-npm ERR!   in workspace: tetris-game@0.1.0 
-npm ERR!   at location: /Users/user/Documents/github/game-mono/packages/tetris-game 
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  73.87 kB  build/static/js/main.c9d71294.js
+  603 B     build/static/css/main.9db7a37a.css
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
