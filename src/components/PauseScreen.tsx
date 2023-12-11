@@ -1,5 +1,4 @@
-import { Modal } from "ui";
-import Pause from "../assets/pause.svg";
+import { Modal, Pause } from "ui";
 import "../styles/PauseScreen.css";
 export const PauseSceen = () => {
   return (
