@@ -1,5 +1,5 @@
+import { Modal } from '@repo/ui';
 import { FunctionComponent } from 'react';
-import { Modal } from 'ui';
 import '../styles/WelcomeScreen.css';
 import ModalContent from './ModalContent';
 

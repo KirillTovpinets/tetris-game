@@ -1,4 +1,4 @@
-import { Modal, Pause } from "ui";
+import { Modal, Pause } from "@repo/ui";
 import "../styles/PauseScreen.css";
 export const PauseSceen = () => {
   return (

@@ -1,5 +1,5 @@
+import { Modal } from '@repo/ui';
 import { FunctionComponent } from 'react';
-import { Modal } from 'ui';
 
 interface GameOverSceenProps { }
 

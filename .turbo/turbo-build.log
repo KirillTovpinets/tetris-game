@@ -1,25 +1,11 @@
 
-> tetris-game@0.1.0 build
+> tetris-game@0.1.0 build C:\github\resume\packages\tetris-game
 > react-scripts build
 
 Creating an optimized production build...
-Compiled successfully.
+Failed to compile.
 
-File sizes after gzip:
+Module not found: Error: Can't resolve '@repo/ui' in 'C:\github\resume\packages\tetris-game\src\components'
 
-  73.87 kB  build/static/js/main.c9d71294.js
-  603 B     build/static/css/main.9db7a37a.css
 
-The project was built assuming it is hosted at /.
-You can control this with the homepage field in your package.json.
-
-The build folder is ready to be deployed.
-You may serve it with a static server:
-
-  npm install -g serve
-  serve -s build
-
-Find out more about deployment here:
-
-  https://cra.link/deployment
-
+ ELIFECYCLE  Command failed with exit code 1.
