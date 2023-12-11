@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
+import { Modal } from 'ui';
 import '../styles/WelcomeScreen.css';
-import { Modal } from './Modal';
 import ModalContent from './ModalContent';
 
 interface WelcomeScreenProps {

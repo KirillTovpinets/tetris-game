@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
-import { Modal } from './Modal';
+import { Modal } from 'ui';
 
-interface GameOverSceenProps {}
+interface GameOverSceenProps { }
 
 const GameOverSceen: FunctionComponent<GameOverSceenProps> = () => {
   return (
