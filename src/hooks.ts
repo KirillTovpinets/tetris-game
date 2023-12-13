@@ -50,7 +50,7 @@ export const useKeyboardHanlder = (isPaused: boolean, speed: number) => {
 
       const isAtTheLeftEdge = code === KeyboardCodes.left && minX === 0;
       const isAtTheRightEdge =
-        code === KeyboardCodes.right && maxX === rows[0].cells.length - 1;
+        code === KeyboardCodes.right && maxX === (rows[0]?.cells.length || 0) - 1;
       if (
         isAtTheLeftEdge ||
         isAtTheRightEdge ||

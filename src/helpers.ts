@@ -33,7 +33,7 @@ const getRandomNumber = (min = 0, max = 1) =>
 
 export const getRandomColor = (): string => {
   const randomNumber = getRandomNumber(0, COLORS.length - 1);
-  return COLORS[randomNumber];
+  return COLORS[randomNumber] as string;
 };
 
 export const getRandomShape = (initialX: number): Shape => {
@@ -62,8 +62,8 @@ export const SHAPE_CELLS_MAP: (x: number) => Record<ShapeEnum, CellConfig[]> =
           ) as CellConfig[];
           return hash;
         }, {} as Record<ShapeEnum, CellConfig[]>) as unknown as Record<
-        ShapeEnum,
-        CellConfig[]
-      >;
+          ShapeEnum,
+          CellConfig[]
+        >;
     };
   })();
