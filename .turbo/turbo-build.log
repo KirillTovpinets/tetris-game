@@ -7,8 +7,8 @@ Compiled successfully.
 
 File sizes after gzip:
 
-  69.46 kB  build\static\js\main.b4f3d83a.js
-  846 B     build\static\css\main.26976974.css
+  69.46 kB       build\static\js\main.b4f3d83a.js
+  890 B (+44 B)  build\static\css\main.ec1c5341.css
 
 The project was built assuming it is hosted at /.
 You can control this with the homepage field in your package.json.
