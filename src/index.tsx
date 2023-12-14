@@ -1,4 +1,3 @@
-import "@repo/ui/dist/esm/dist/main.css";
 import React from "react";
 import { RecoilRoot } from "recoil";
 import App from "./App";
