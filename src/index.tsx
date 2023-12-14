@@ -1,3 +1,4 @@
+import "@repo/ui/dist/index.css";
 import React from "react";
 import { RecoilRoot } from "recoil";
 import App from "./App";
